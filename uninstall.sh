@@ -72,9 +72,8 @@ for config in "${SHELL_CONFIGS[@]}"; do
         if [[ "$remove_alias" =~ ^[Yy]$ ]]; then
             # Backup the config file
             cp "$config" "$config.bak"
-            # Remove the alias and the comment line before it
-            sed -i.tmp '/# better-crontab alias/d; /alias crontab=.*better-crontab/d' "$config"
-            rm -f "$config.tmp"
+            # Remove the alias and the comment line before it (portable approach)
+            grep -v "# better-crontab alias" "$config.bak" | grep -v "alias crontab=.*better-crontab" > "$config"
             echo -e "${GREEN}✓${NC} 已從 $config 移除 alias (備份: $config.bak)"
         else
             echo "保留 $config 中的 alias"

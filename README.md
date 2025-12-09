@@ -37,15 +37,20 @@
 # 1. 下載 better-crontab 腳本
 sudo curl -o /usr/local/bin/better-crontab https://raw.githubusercontent.com/doggy8088/better-crontab/main/better-crontab
 
-# 2. 設定執行權限
+# 2. （建議）檢視腳本內容，確認無安全疑慮
+less /usr/local/bin/better-crontab
+
+# 3. 設定執行權限
 sudo chmod +x /usr/local/bin/better-crontab
 
-# 3. 建立 alias（加入到 ~/.bashrc 或 ~/.zshrc）
+# 4. 建立 alias（加入到 ~/.bashrc 或 ~/.zshrc）
 echo 'alias crontab="better-crontab"' >> ~/.bashrc
 
-# 4. 重新載入設定
+# 5. 重新載入設定
 source ~/.bashrc
 ```
+
+⚠️ **安全提示**：在執行任何從網路下載的腳本前，建議先檢視其內容，確保沒有惡意程式碼。
 
 ### 方法 2：手動安裝
 

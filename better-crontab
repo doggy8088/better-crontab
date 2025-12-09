@@ -7,9 +7,17 @@
 #
 
 # Store the real crontab path
-REAL_CRONTAB=$(which -a crontab | grep -v "$(dirname "$0")" | head -1)
+# Try multiple methods for finding the real crontab (for portability)
+if command -v which >/dev/null 2>&1; then
+    REAL_CRONTAB=$(which -a crontab 2>/dev/null | grep -v "$(dirname "$0")" | head -1)
+fi
 
-# If real crontab not found, try standard paths
+# If not found, try command -v
+if [ -z "$REAL_CRONTAB" ]; then
+    REAL_CRONTAB=$(command -v crontab 2>/dev/null)
+fi
+
+# If still not found, try standard paths
 if [ -z "$REAL_CRONTAB" ]; then
     if [ -x "/usr/bin/crontab" ]; then
         REAL_CRONTAB="/usr/bin/crontab"
@@ -27,7 +35,7 @@ confirm() {
     local response
     
     echo -n "$prompt (yes/no): " >&2
-    read response
+    read -r response
     
     case "$response" in
         [yY]|[yY][eE][sS]|是)

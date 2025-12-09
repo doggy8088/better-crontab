@@ -91,8 +91,9 @@ if [[ "$add_alias" =~ ^[Yy]$ ]]; then
         echo -e "${YELLOW}!${NC} 警告：alias 已存在於 $SHELL_CONFIG"
         read -p "是否覆蓋？ (y/n): " overwrite
         if [[ "$overwrite" =~ ^[Yy]$ ]]; then
-            # Remove old alias
-            sed -i.bak '/alias crontab=/d' "$SHELL_CONFIG"
+            # Remove old alias (portable sed syntax)
+            cp "$SHELL_CONFIG" "$SHELL_CONFIG.bak"
+            grep -v "alias crontab=" "$SHELL_CONFIG.bak" > "$SHELL_CONFIG"
         else
             echo "跳過 alias 設定"
             add_alias="n"
